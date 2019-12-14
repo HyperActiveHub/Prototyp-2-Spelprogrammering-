@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Events;
 
 [ExecuteAlways]
 [RequireComponent(typeof(SpriteRenderer))]
@@ -10,6 +11,7 @@ public class PowerUpBehaviour : MonoBehaviour
     public PowerUp pwrUp;
 
     SpriteRenderer sRenderer;
+    float duration;
 
     private void Awake()
     {
@@ -20,37 +22,26 @@ public class PowerUpBehaviour : MonoBehaviour
     void SetValues()
     {
         sRenderer.sprite = pwrUp.sprite;
+        duration = pwrUp.duration;
     }
 
 #if UNITY_EDITOR
     [HideInInspector]
     public bool valuesChanged;
-    PowerUp oldPwrUp = null;
-
-    private void OnValidate()
-    {
-        //Debug.Log("Changed pwr-up type from " + oldPwrUp.name + " to " + pwrUp.name);
-        oldPwrUp.pwrUps.Remove(this);
-        pwrUp.pwrUps.Add(this);
-        oldPwrUp = pwrUp;
-        valuesChanged = true;
-    }
 
     private void OnEnable()
     {
-        SetValues();
-        oldPwrUp = pwrUp;
-        pwrUp.pwrUps.Add(this);
-    }
-
-    void ChangedPwrUp()
-    {
-        valuesChanged = true;
+        GameManager.ClearAndAddPwrUps();
     }
 
     private void OnDisable()
     {
-        pwrUp.pwrUps.Remove(this);
+        GameManager.ClearAndAddPwrUps();
+    }
+
+    private void OnValidate()
+    {
+        valuesChanged = true;
     }
 
     void UpdateValues()
@@ -59,14 +50,15 @@ public class PowerUpBehaviour : MonoBehaviour
         valuesChanged = false;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
+        //This is done to avoid sending message during awake (warning)
         if (valuesChanged)
         {
-            SetValues();
-            valuesChanged = false;
+            UpdateValues();
         }
     }
+
 #endif
 
 }
