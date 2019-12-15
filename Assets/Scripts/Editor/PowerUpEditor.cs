@@ -7,11 +7,18 @@ public class PowerUpEditor : Editor
 {
     int selected = 0;
 
-    public override void OnInspectorGUI()
+    void AddToList<T>(List<T> list, int listCount)
     {
-        base.OnInspectorGUI();
+        while (list.Count < listCount)
+        {
+            var value = (list[0]);      //copy, dont use the same value...
+            list.Add(value);
+            Debug.Log("Value added to int list. Count: " + list.Count);
+        }
+    }
 
-        PowerUp pwrUp = (PowerUp)target;
+    void FunctionsMenu(PowerUp pwrUp)
+    {
         List<string> optionList = new List<string>();
         var functionList = pwrUp.puFunctinos;
         foreach (var function in functionList)
@@ -21,18 +28,72 @@ public class PowerUpEditor : Editor
 
         selected = EditorGUILayout.Popup("Power-Up Function", selected, optionList.ToArray());
         pwrUp.selected = selected;
+    }
 
-        //SerializedProperty property = serializedObject.FindProperty("Parameters");
-        //EditorGUILayout.PropertyField(property);
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
 
-        string name = "";
+        PowerUp pwrUp = (PowerUp)target;
+        FunctionsMenu(pwrUp);
+
+        //temp, this should only be done once
+        List<System.Reflection.ParameterInfo[]> parameters = new List<System.Reflection.ParameterInfo[]>(pwrUp.properties);
+        int intCount = 0, floatCount = 0, v3Count = 0;
+
+        List<System.Type> types = new List<System.Type>();
+        Dictionary<int, bool> isParameterIndexUsed = new Dictionary<int, bool>();
+
+
+        foreach (var p in parameters)
+        {
+            foreach (var e in p)
+            {
+                types.Add(e.ParameterType);
+                //int index = 0;//parameters.IndexOf/;
+                //isParameterIndexUsed.Add(index, false);
+                //Debug.Log("param '" + e.ParameterType + "', index: " + index);
+            }
+        }
+
+        foreach (var pType in types)
+        {
+            if (pType == typeof(int))
+            {
+                intCount++;
+            }
+            else if (pType == typeof(float))
+            {
+                floatCount++;
+            }
+            else if (pType == typeof(Vector3))
+            {
+                v3Count++;
+            }
+        }
+
+        AddToList(pwrUp.intList, intCount);
+
+        //string typeString = "";
+        //foreach(var t in types)
+        //{
+        //    typeString += t.ToString() + ", ";
+        //}
+        //Debug.Log("Parameter types: " + typeString);
+
+        //temp, this should only be done once
+
         System.Type type;
-        //Serialize parameter types based on function instead?
+        string name = "";
+
         if (pwrUp.properties[selected].Length != 0)     //the function has atleast one parameter
         {
             //get parameter type
             type = pwrUp.properties[selected][0].ParameterType;
             name = pwrUp.properties[selected][0].Name;
+
+            //clear typeLists in PowerUp
+            //if intList.Count != amount of int parameters, intList.add
 
             foreach (var p in pwrUp.properties[selected])
             {
@@ -43,20 +104,9 @@ public class PowerUpEditor : Editor
 
                 if (type == typeof(int))
                 {
-                    //Check if there is an available int element, if not add one.
-                    //pwrUp.intList.Add(0);
-
                     property = serializedObject.FindProperty("intList");
-                    //property = serializedObject.FindProperty("intHolder");
-                    //var booleanProperty = property.FindPropertyRelative("isUsed").GetArrayElementAtIndex(selected);
-                    //if (booleanProperty.boolValue == false)
-                    //{
-                    //    booleanProperty.boolValue = true;
-                    //    property = property.FindPropertyRelative("value").GetArrayElementAtIndex(selected);
-                    //}
-
-                    //Debug.Log("isUsed: " + booleanProperty.boolValue);
-                    property = property.GetArrayElementAtIndex(0);
+                    
+                    property = property.GetArrayElementAtIndex(0);      //need to figure out a way to index the parameters, in each type(List).
                 }
                 else if (type == typeof(float))
                 {
@@ -69,24 +119,7 @@ public class PowerUpEditor : Editor
 
                 EditorGUILayout.PropertyField(property, new GUIContent(name));
             }
-
-
-
-
         }
-
-
-        //var parameters = functionList[selected].GetParameters();
-        //foreach (var para in parameters)
-        //{
-        //    Debug.Log(para);
-        //    SerializedProperty property = serializedObject.FindProperty(para.Name);
-        //    Debug.Log(property.ToString());
-        //    EditorGUILayout.PropertyField(property);
-
-        //}
-        //SerializedProperty property = ("test");
-        //EditorGUILayout.PropertyField(property);
 
         if (GUI.changed)
         {
@@ -94,9 +127,4 @@ public class PowerUpEditor : Editor
         }
         serializedObject.ApplyModifiedProperties();
     }
-
-
-
 }
-
-
