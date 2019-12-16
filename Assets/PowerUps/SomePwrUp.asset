@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822075197a232794da626ae0d563cdf4, type: 3}
+  m_Name: SomePwrUp
+  m_EditorClassIdentifier: 
+  value_f: 0
+  value_i: 0
+  value_v3: {x: 0, y: 0, z: 0}
+  selected: 0
+  Parameters:
+    type: 0
+  sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  duration: 5
+  extraJumpHeight: -1.05
