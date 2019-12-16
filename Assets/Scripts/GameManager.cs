@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
 #if UNITY_EDITOR
     static public List<PowerUpBehaviour> pwrUps = new List<PowerUpBehaviour>();
     public static void PwrUpChanged()
