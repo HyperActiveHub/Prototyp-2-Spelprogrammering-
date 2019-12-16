@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 822075197a232794da626ae0d563cdf4, type: 3}
   m_Name: Mark
   m_EditorClassIdentifier: 
-  value_f: 1.97
+  value_f: 2.22
   value_i: 0
   value_v3: {x: 0.18, y: 0, z: 0}
   intList: 2e000000
-  selected: 2
+  selected: 4
+  actionSelected: 1
   sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  duration: 0

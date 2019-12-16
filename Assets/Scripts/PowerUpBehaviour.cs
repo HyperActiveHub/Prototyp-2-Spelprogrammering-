@@ -11,7 +11,7 @@ public class PowerUpBehaviour : MonoBehaviour
     public PowerUp pwrUp;
 
     SpriteRenderer sRenderer;
-    float duration;
+    //float duration;
 
     private void Awake()
     {
@@ -22,7 +22,19 @@ public class PowerUpBehaviour : MonoBehaviour
     void SetValues()
     {
         sRenderer.sprite = pwrUp.sprite;
-        duration = pwrUp.duration;
+        //set a list of all functions and actions and invoke them accordingly when powerUp is picked up.
+        //duration = pwrUp.duration;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.GetComponent<PlayerScript>() != null)
+        {
+            //invoke all functions with correct parameters
+            //
+            //methodInfoOfFunction.Invoke(null, null); if function lacks parameters (i call them actions).
+            //methodInfoOfFunction.Invoke(null, allCorrectParameters (the serialized ones...)); if function has one or more parameters.
+        }
     }
 
 #if UNITY_EDITOR

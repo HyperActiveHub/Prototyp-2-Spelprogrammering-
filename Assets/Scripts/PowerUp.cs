@@ -12,20 +12,22 @@ public class PowerUp : ScriptableObject
     [HideInInspector] public int value_i;
     [HideInInspector] public Vector3 value_v3;
     //[HideInInspector]
-    public List<int> intList = new List<int>();  
-    //temp
+    public List<int> intList = new List<int>();
+        //temp
 
     //public List<PowerUpFunctionsScript.PowerUpFunctions> puFunctinos = new List<PowerUpFunctionsScript.PowerUpFunctions>();
     public List<System.Reflection.MethodInfo> puFunctinos = new List<System.Reflection.MethodInfo>();
+    public List<System.Reflection.MethodInfo> puActions = new List<System.Reflection.MethodInfo>();
 
     [HideInInspector]
-    public int selected;
+    public int selected, actionSelected;
 
     public enum types { integer, floating, boolean, Vector2D, Rectangle }
 
     [SerializeField]
     public List<System.Reflection.ParameterInfo> pwrUpProperties = new List<System.Reflection.ParameterInfo>();
     public System.Reflection.ParameterInfo[][] properties;
+    public List<System.Reflection.MethodInfo> actionList;
 
     private void OnValidate()
     {
@@ -41,7 +43,7 @@ public class PowerUp : ScriptableObject
         GameManager.PwrUpChanged();
 
         //check if list changed first
-        puFunctinos = PowerUpFunctionsScript.GetPowerUpFunctions(out properties);
+        puFunctinos = PowerUpFunctionsScript.GetPowerUpFunctions(out properties, out actionList);
         for (int i = 0; i < properties.Length; i++)
         {
             for (int j = 0; j < properties[i].Length; j++)
@@ -54,6 +56,6 @@ public class PowerUp : ScriptableObject
 
     //select all *tag*
     public Sprite sprite;
-    [Tooltip("How long will this power-up last (in seconds)? Zero = infinity (must break somehow)")]    //Use assert to make sure the pwr-up can break if duration = 0;
-    public float duration;
+    //[Tooltip("How long will this power-up last (in seconds)? Zero = infinity (must break somehow)")]    //Use assert to make sure the pwr-up can break if duration = 0;
+    //public float duration;
 }

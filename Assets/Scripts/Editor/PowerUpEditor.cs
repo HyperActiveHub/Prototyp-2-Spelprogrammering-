@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class PowerUpEditor : Editor
 {
     int selected = 0;
-
+    int actionSelected = 0;
     void AddToList<T>(List<T> list, int listCount)
     {
         while (list.Count < listCount)
@@ -28,6 +28,18 @@ public class PowerUpEditor : Editor
 
         selected = EditorGUILayout.Popup("Power-Up Function", selected, optionList.ToArray());
         pwrUp.selected = selected;
+    }
+
+    void ActionsMenu(PowerUp pwrUp)
+    {
+        List<string> optionsList = new List<string>();
+        var actionsList = pwrUp.actionList;
+        foreach(var action in actionsList)
+        {
+            optionsList.Add(action.Name);
+        }
+        actionSelected = EditorGUILayout.Popup("Action", actionSelected, optionsList.ToArray());
+        pwrUp.actionSelected = actionSelected;
     }
 
     public override void OnInspectorGUI()
@@ -116,8 +128,20 @@ public class PowerUpEditor : Editor
                 {
                     property = serializedObject.FindProperty("value_v3");
                 }
+                else if(type == typeof(System.Action))
+                {
+                    //property = serializedObject.FindProperty("actionList");
 
-                EditorGUILayout.PropertyField(property, new GUIContent(name));
+                    //property = property.GetArrayElementAtIndex(0);
+                    int index = 0;
+                    ActionsMenu(pwrUp);
+                }
+
+                if(property != null)
+                {
+                    EditorGUILayout.PropertyField(property, new GUIContent(name));
+                    Debug.LogWarning("Property was null.", this);
+                }
             }
         }
 
