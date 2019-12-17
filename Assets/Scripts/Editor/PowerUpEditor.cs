@@ -20,7 +20,7 @@ public class PowerUpEditor : Editor
     void FunctionsMenu(PowerUp pwrUp)
     {
         List<string> optionList = new List<string>();
-        var functionList = pwrUp.puFunctinos;
+        var functionList = pwrUp.functions;
         foreach (var function in functionList)
         {
             optionList.Add(function.Name);
@@ -28,13 +28,14 @@ public class PowerUpEditor : Editor
 
         selected = EditorGUILayout.Popup("Power-Up Function", selected, optionList.ToArray());
         pwrUp.selected = selected;
+        EditorGUILayout.LabelField("Configure:", optionList[selected], );
     }
 
     void ActionsMenu(PowerUp pwrUp)
     {
         List<string> optionsList = new List<string>();
-        var actionsList = pwrUp.actionList;
-        foreach(var action in actionsList)
+        var actionsList = pwrUp.actions;
+        foreach (var action in actionsList)
         {
             optionsList.Add(action.Name);
         }
@@ -48,9 +49,10 @@ public class PowerUpEditor : Editor
 
         PowerUp pwrUp = (PowerUp)target;
         FunctionsMenu(pwrUp);
+        EditorGUI.indentLevel++;
 
         //temp, this should only be done once
-        List<System.Reflection.ParameterInfo[]> parameters = new List<System.Reflection.ParameterInfo[]>(pwrUp.properties);
+        List<System.Reflection.ParameterInfo[]> parameters = new List<System.Reflection.ParameterInfo[]>(pwrUp.parameters);
         int intCount = 0, floatCount = 0, v3Count = 0;
 
         List<System.Type> types = new List<System.Type>();
@@ -98,16 +100,16 @@ public class PowerUpEditor : Editor
         System.Type type;
         string name = "";
 
-        if (pwrUp.properties[selected].Length != 0)     //the function has atleast one parameter
+        if (pwrUp.parameters[selected].Length != 0)     //the function has atleast one parameter
         {
             //get parameter type
-            type = pwrUp.properties[selected][0].ParameterType;
-            name = pwrUp.properties[selected][0].Name;
+            type = pwrUp.parameters[selected][0].ParameterType;
+            name = pwrUp.parameters[selected][0].Name;
 
             //clear typeLists in PowerUp
             //if intList.Count != amount of int parameters, intList.add
 
-            foreach (var p in pwrUp.properties[selected])
+            foreach (var p in pwrUp.parameters[selected])
             {
                 SerializedProperty property = null;
                 type = p.ParameterType;
@@ -117,32 +119,33 @@ public class PowerUpEditor : Editor
                 if (type == typeof(int))
                 {
                     property = serializedObject.FindProperty("intList");
-                    
+
                     property = property.GetArrayElementAtIndex(0);      //need to figure out a way to index the parameters, in each type(List).
+                    EditorGUILayout.PropertyField(property, new GUIContent(name));
+
                 }
                 else if (type == typeof(float))
                 {
                     property = serializedObject.FindProperty("value_f");
+                    EditorGUILayout.PropertyField(property, new GUIContent(name));
+
                 }
                 else if (type == typeof(Vector2))
                 {
                     property = serializedObject.FindProperty("value_v3");
+                    EditorGUILayout.PropertyField(property, new GUIContent(name));
+
                 }
-                else if(type == typeof(System.Action))
+                else if (type == typeof(System.Action))
                 {
                     //property = serializedObject.FindProperty("actionList");
 
                     //property = property.GetArrayElementAtIndex(0);
-                    int index = 0;
                     ActionsMenu(pwrUp);
-                }
-
-                if(property != null)
-                {
-                    EditorGUILayout.PropertyField(property, new GUIContent(name));
-                    Debug.LogWarning("Property was null.", this);
+                    EditorGUI.indentLevel++;
                 }
             }
+                EditorGUI.indentLevel = 0;  //Reset indent for next function
         }
 
         if (GUI.changed)

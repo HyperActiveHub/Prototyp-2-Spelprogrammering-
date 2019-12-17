@@ -17,24 +17,24 @@ public static class PowerUpFunctionsScript //: MonoBehaviour
     {
         player = PlayerScript.Instance;
     }
-
     public static void Invulnerability()
     {
         Debug.Log("This is a test function for powerups.");
     }
-
     public static void Shield(int radius, Vector2 offset)
     {
         Debug.Log("Make a shield");
     }
-
-
     public static void ExtraJumpHeight(float extraHeight)
     {
          player.AddJumpHeight(extraHeight);
         //StartCoroutine(ExecuteMethodInSeconds(ResetJumpHeight, 3/*temp*/));
     }
-
+    public static void AddTwoInts(int firstInt, int secondInd)
+    {
+        int res = firstInt + secondInd;
+        //test method.
+    }
     public static void ResetJumpHeight()
     {
         player.ResetJumppHeight();

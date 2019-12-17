@@ -6,33 +6,31 @@ using UnityEngine.Events;
 [CreateAssetMenu(fileName = "New Power-Up", menuName = "PowerUp")]
 public class PowerUp : ScriptableObject
 {
-#if UNITY_EDITOR
+    public Sprite sprite;
+    //[Tooltip("How long will this power-up last (in seconds)? Zero = infinity (must break somehow)")]    //Use assert to make sure the pwr-up can break if duration = 0;
+    //public float duration;
+
     //temp
     [HideInInspector] public float value_f;
     [HideInInspector] public int value_i;
     [HideInInspector] public Vector3 value_v3;
-    //[HideInInspector]
-    public List<int> intList = new List<int>();
-        //temp
+    /*[HideInInspector]*/ public List<int> intList = new List<int>();
+    //temp
 
     //public List<PowerUpFunctionsScript.PowerUpFunctions> puFunctinos = new List<PowerUpFunctionsScript.PowerUpFunctions>();
-    public List<System.Reflection.MethodInfo> puFunctinos = new List<System.Reflection.MethodInfo>();
-    public List<System.Reflection.MethodInfo> puActions = new List<System.Reflection.MethodInfo>();
+    public List<System.Reflection.MethodInfo> functions = new List<System.Reflection.MethodInfo>();
+    public List<System.Reflection.MethodInfo> actions;
 
     [HideInInspector]
     public int selected, actionSelected;
-
-    public enum types { integer, floating, boolean, Vector2D, Rectangle }
-
     [SerializeField]
-    public List<System.Reflection.ParameterInfo> pwrUpProperties = new List<System.Reflection.ParameterInfo>();
-    public System.Reflection.ParameterInfo[][] properties;
-    public List<System.Reflection.MethodInfo> actionList;
+    public List<System.Reflection.ParameterInfo> pwrUpParameters = new List<System.Reflection.ParameterInfo>();
+    public System.Reflection.ParameterInfo[][] parameters;
 
     private void OnValidate()
     {
         OnChange();
-        if(intList.Count == 0)
+        if (intList.Count == 0)
         {
             intList.Add(0);
         }
@@ -43,19 +41,14 @@ public class PowerUp : ScriptableObject
         GameManager.PwrUpChanged();
 
         //check if list changed first
-        puFunctinos = PowerUpFunctionsScript.GetPowerUpFunctions(out properties, out actionList);
-        for (int i = 0; i < properties.Length; i++)
+        functions = PowerUpFunctionsScript.GetPowerUpFunctions(out parameters, out actions);
+        for (int i = 0; i < parameters.Length; i++)
         {
-            for (int j = 0; j < properties[i].Length; j++)
+            for (int j = 0; j < parameters[i].Length; j++)
             {
-                pwrUpProperties.Add(properties[i][j]);
+                pwrUpParameters.Add(parameters[i][j]);
             }
         }
     }
-#endif
 
-    //select all *tag*
-    public Sprite sprite;
-    //[Tooltip("How long will this power-up last (in seconds)? Zero = infinity (must break somehow)")]    //Use assert to make sure the pwr-up can break if duration = 0;
-    //public float duration;
 }
