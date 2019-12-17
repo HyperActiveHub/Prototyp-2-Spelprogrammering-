@@ -28,7 +28,10 @@ public class PowerUpEditor : Editor
 
         selected = EditorGUILayout.Popup("Power-Up Function", selected, optionList.ToArray());
         pwrUp.selected = selected;
-        EditorGUILayout.LabelField("Configure:", optionList[selected], );
+
+        EditorGUILayout.LabelField(optionList[selected], EditorStyles.boldLabel);   //use the same kind of indexing for getting correct properties?
+        //EditorGUILayout.HelpBox("This is a square message info in inspector", MessageType.Info, false);
+
     }
 
     void ActionsMenu(PowerUp pwrUp)
@@ -49,7 +52,7 @@ public class PowerUpEditor : Editor
 
         PowerUp pwrUp = (PowerUp)target;
         FunctionsMenu(pwrUp);
-        EditorGUI.indentLevel++;
+        
 
         //temp, this should only be done once
         List<System.Reflection.ParameterInfo[]> parameters = new List<System.Reflection.ParameterInfo[]>(pwrUp.parameters);
@@ -102,6 +105,9 @@ public class PowerUpEditor : Editor
 
         if (pwrUp.parameters[selected].Length != 0)     //the function has atleast one parameter
         {
+            //GUILayout.BeginArea(new Rect(Vector2.zero, new Vector2(400, 400)));
+            EditorGUI.indentLevel++;
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             //get parameter type
             type = pwrUp.parameters[selected][0].ParameterType;
             name = pwrUp.parameters[selected][0].Name;
@@ -142,10 +148,13 @@ public class PowerUpEditor : Editor
 
                     //property = property.GetArrayElementAtIndex(0);
                     ActionsMenu(pwrUp);
-                    EditorGUI.indentLevel++;
                 }
             }
-                EditorGUI.indentLevel = 0;  //Reset indent for next function
+
+            EditorGUI.indentLevel = 0;  //Reset indent for next function
+
+            //GUILayout.EndArea();
+            EditorGUILayout.EndVertical();
         }
 
         if (GUI.changed)

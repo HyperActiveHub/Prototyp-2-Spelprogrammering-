@@ -68,7 +68,7 @@ public static class PowerUpFunctionsScript //: MonoBehaviour
         {
             parameters[i] = pwrUpFunctions[i].GetParameters();
 
-            if(parameters[i].Length == 0)
+            if (parameters[i].Length == 0)
             {
                 actionList.Add(pwrUpFunctions[i]);
             }

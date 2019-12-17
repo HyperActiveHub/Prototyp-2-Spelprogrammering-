@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Mark
   m_EditorClassIdentifier: 
   sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  value_f: 4.63
+  value_f: 5.82
   value_i: 0
   value_v3: {x: 1.11, y: 0, z: 0}
-  intList: 2c0000004a0000004a000000
-  selected: 1
+  intList: 340000004a0000004a000000
+  selected: 5
   actionSelected: 0
