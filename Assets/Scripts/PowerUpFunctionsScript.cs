@@ -8,14 +8,14 @@ public static class PowerUpFunctionsScript //: MonoBehaviour
 {
     //public static PowerUpFunctionsScript Instance;
 
-    static PlayerScript player;
+    //static PlayerScript player;
 
     //public delegate void PowerUpFunctions();
     //public static List<PowerUpFunctions> powerUpFunctions = new List<PowerUpFunctions>();
 
     private static void Start()
     {
-        player = PlayerScript.Instance;
+        //player = PlayerScript.Instance;
     }
     public static void Invulnerability()
     {
@@ -27,7 +27,7 @@ public static class PowerUpFunctionsScript //: MonoBehaviour
     }
     public static void ExtraJumpHeight(float extraHeight)
     {
-         player.AddJumpHeight(extraHeight);
+         //player.AddJumpHeight(extraHeight);
         //StartCoroutine(ExecuteMethodInSeconds(ResetJumpHeight, 3/*temp*/));
     }
     public static void AddTwoInts(int firstInt, int secondInd)
@@ -37,7 +37,7 @@ public static class PowerUpFunctionsScript //: MonoBehaviour
     }
     public static void ResetJumpHeight()
     {
-        player.ResetJumppHeight();
+        //player.ResetJumppHeight();
     }
 
     public static IEnumerator ExecuteMethodInSeconds(System.Action method, float seconds)

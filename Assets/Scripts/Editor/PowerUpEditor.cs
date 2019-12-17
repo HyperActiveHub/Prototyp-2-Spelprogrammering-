@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Reflection;
 
 [CustomEditor(typeof(PowerUp))]
 public class PowerUpEditor : Editor
@@ -52,15 +53,12 @@ public class PowerUpEditor : Editor
 
         PowerUp pwrUp = (PowerUp)target;
         FunctionsMenu(pwrUp);
-        
 
         //temp, this should only be done once
-        List<System.Reflection.ParameterInfo[]> parameters = new List<System.Reflection.ParameterInfo[]>(pwrUp.parameters);
+        List<ParameterInfo[]> parameters = new List<ParameterInfo[]>(pwrUp.parameters);
         int intCount = 0, floatCount = 0, v3Count = 0;
 
         List<System.Type> types = new List<System.Type>();
-        Dictionary<int, bool> isParameterIndexUsed = new Dictionary<int, bool>();
-
 
         foreach (var p in parameters)
         {
@@ -100,27 +98,26 @@ public class PowerUpEditor : Editor
 
         //temp, this should only be done once
 
+        //Index with selected and number of parameters in selected function?
         System.Type type;
         string name = "";
 
         if (pwrUp.parameters[selected].Length != 0)     //the function has atleast one parameter
         {
-            //GUILayout.BeginArea(new Rect(Vector2.zero, new Vector2(400, 400)));
             EditorGUI.indentLevel++;
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            //get parameter type
+
             type = pwrUp.parameters[selected][0].ParameterType;
             name = pwrUp.parameters[selected][0].Name;
 
             //clear typeLists in PowerUp
             //if intList.Count != amount of int parameters, intList.add
 
-            foreach (var p in pwrUp.parameters[selected])
+            foreach (System.Reflection.ParameterInfo parameter in pwrUp.parameters[selected])
             {
                 SerializedProperty property = null;
-                type = p.ParameterType;
-                name = p.Name;
-
+                type = parameter.ParameterType;
+                name = parameter.Name;
 
                 if (type == typeof(int))
                 {

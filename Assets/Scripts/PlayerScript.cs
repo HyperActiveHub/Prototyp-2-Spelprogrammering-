@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    public static PlayerScript Instance;
+    //public static PlayerScript Instance;
 
     Rigidbody2D rb;
     [Tooltip("The base hight the player jumps on each platform. This can be increased with power-ups.")]
