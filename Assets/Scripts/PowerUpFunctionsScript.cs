@@ -20,9 +20,9 @@ public static class PowerUpFunctionsScript //: MonoBehaviour
     {
         //player = PlayerScript.Instance;
     }
-    public static void Invulnerability()
+    public static void Invulnerability(int test)
     {
-        Debug.Log("This is a test function for powerups.");
+        Debug.Log("This is a test function for powerups. input value: " + test);
     }
     public static void Shield(int radius, Vector2 offset)
     {
@@ -46,6 +46,7 @@ public static class PowerUpFunctionsScript //: MonoBehaviour
     }
     public static void ResetJumpHeight()
     {
+        Debug.Log("Jump Height reset.");
         //player.ResetJumppHeight();
     }
 

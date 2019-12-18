@@ -12,6 +12,9 @@ public class PowerUpBehaviour : MonoBehaviour
 
     SpriteRenderer sRenderer;
     //float duration;
+    //List<System.Reflection.MethodInfo> functions;
+    //List<System.Reflection.MethodInfo> chosenFunctions;
+    System.Reflection.MethodInfo chosenFunction;
 
     private void Awake()
     {
@@ -23,6 +26,9 @@ public class PowerUpBehaviour : MonoBehaviour
     {
         sRenderer.sprite = pwrUp.sprite;
         //set a list of all functions and actions and invoke them accordingly when powerUp is picked up.
+
+        chosenFunction = pwrUp.functions[pwrUp.selected];
+
         //duration = pwrUp.duration;
     }
 
@@ -32,6 +38,28 @@ public class PowerUpBehaviour : MonoBehaviour
         {
             //invoke all functions with correct parameters
             //
+            if(pwrUp.parameters[pwrUp.selected].Length == 0)
+            {
+                chosenFunction.Invoke(null, null);
+
+            }
+            else
+            {
+                List<object> parameterTypes = new List<object>();
+                foreach(var parameter in pwrUp.parameters[pwrUp.selected])
+                {
+                    var unique = pwrUp.GetUniqueElements(pwrUp.types);
+                    int typeIndex = pwrUp.GetTypeIndex(parameter.ParameterType, unique);
+                    int propertyIndex = pwrUp.GetPropertyIndex(parameter.ParameterType, unique);
+
+                    parameterTypes.Add(pwrUp.intList[propertyIndex]);
+                }
+
+
+                chosenFunction.Invoke(null, parameterTypes.ToArray());
+            }
+
+            //pwrUp.GetPropertyIndex()
             //methodInfoOfFunction.Invoke(null, null); if function lacks parameters (i call them actions).
             //methodInfoOfFunction.Invoke(null, allCorrectParameters (the serialized ones...)); if function has one or more parameters.
         }
