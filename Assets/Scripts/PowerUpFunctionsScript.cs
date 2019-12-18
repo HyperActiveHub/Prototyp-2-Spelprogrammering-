@@ -13,6 +13,9 @@ public static class PowerUpFunctionsScript //: MonoBehaviour
     //public delegate void PowerUpFunctions();
     //public static List<PowerUpFunctions> powerUpFunctions = new List<PowerUpFunctions>();
 
+
+    //Loose coupling with instances so that gameplay code can be written here as well.
+
     private static void Start()
     {
         //player = PlayerScript.Instance;
@@ -30,6 +33,12 @@ public static class PowerUpFunctionsScript //: MonoBehaviour
          //player.AddJumpHeight(extraHeight);
         //StartCoroutine(ExecuteMethodInSeconds(ResetJumpHeight, 3/*temp*/));
     }
+
+    public static void ThisFunctionHas5Ints(int a, int b, int c, int d, int e)
+    {
+
+    }
+
     public static void AddTwoInts(int firstInt, int secondInd)
     {
         int res = firstInt + secondInd;

@@ -27,6 +27,7 @@ public class PowerUp : ScriptableObject
     public List<System.Reflection.ParameterInfo> pwrUpParameters = new List<System.Reflection.ParameterInfo>();
     public System.Reflection.ParameterInfo[][] parameters;
 
+
     private void OnValidate()
     {
         OnChange();
