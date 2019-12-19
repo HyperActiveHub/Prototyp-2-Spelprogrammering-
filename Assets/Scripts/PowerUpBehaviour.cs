@@ -34,11 +34,11 @@ public class PowerUpBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.GetComponent<PlayerScript>() != null)
+        if (collision.GetComponent<PlayerScript>() != null)
         {
             //invoke all functions with correct parameters
             //
-            if(pwrUp.parameters[pwrUp.selected].Length == 0)
+            if (pwrUp.parameters[pwrUp.selected].Length == 0)
             {
                 chosenFunction.Invoke(null, null);
 
@@ -46,18 +46,21 @@ public class PowerUpBehaviour : MonoBehaviour
             else
             {
                 List<object> parameterTypes = new List<object>();
-                foreach(var parameter in pwrUp.parameters[pwrUp.selected])
+                //foreach(var parameter in pwrUp.parameters[pwrUp.selected])
+                //{
+                //    var unique = pwrUp.GetUniqueElements(pwrUp.types);
+                //    int typeIndex = pwrUp.GetTypeIndex(parameter.ParameterType, unique);
+                //    int propertyIndex = pwrUp.GetIndexOfProperty(parameter.ParameterType, unique);
+
+                //    parameterTypes.Add(pwrUp.intList[propertyIndex]);
+                for (int i = 0; i < pwrUp.parameters[pwrUp.selected].Length; i++)
                 {
-                    var unique = pwrUp.GetUniqueElements(pwrUp.types);
-                    int typeIndex = pwrUp.GetTypeIndex(parameter.ParameterType, unique);
-                    int propertyIndex = pwrUp.GetPropertyIndex(parameter.ParameterType, unique);
-
-                    parameterTypes.Add(pwrUp.intList[propertyIndex]);
+                    parameterTypes.Add(pwrUp.intList[i]);
                 }
-
 
                 chosenFunction.Invoke(null, parameterTypes.ToArray());
             }
+
 
             //pwrUp.GetPropertyIndex()
             //methodInfoOfFunction.Invoke(null, null); if function lacks parameters (i call them actions).

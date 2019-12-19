@@ -73,7 +73,7 @@ public class PowerUpEditor : Editor
                 SerializedProperty property = null;
                 type = parameter.ParameterType;
                 name = parameter.Name;
-                int propertyIndex = pwrUp.GetPropertyIndex(type, pwrUp.GetUniqueElements(pwrUp.types), true);
+                int propertyIndex = pwrUp.GetPropertyIndex(type, pwrUp.GetUniqueElements(pwrUp.types));
 
                 if (type == typeof(int))
                 {

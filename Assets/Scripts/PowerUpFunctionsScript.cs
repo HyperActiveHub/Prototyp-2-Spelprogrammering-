@@ -42,6 +42,7 @@ public static class PowerUpFunctionsScript //: MonoBehaviour
     public static void AddTwoInts(int firstInt, int secondInd)
     {
         int res = firstInt + secondInd;
+        Debug.Log("Result: " + res);
         //test method.
     }
     public static void ResetJumpHeight()

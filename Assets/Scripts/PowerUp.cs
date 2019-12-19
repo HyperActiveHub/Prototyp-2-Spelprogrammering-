@@ -14,7 +14,8 @@ public class PowerUp : ScriptableObject
     [HideInInspector] public float value_f;
     [HideInInspector] public int value_i;
     [HideInInspector] public Vector3 value_v3;
-    /*[HideInInspector]*/ public List<int> intList = new List<int>();
+    /*[HideInInspector]*/
+    public List<int> intList = new List<int>();
     //temp
     //public List<PowerUpFunctionsScript.PowerUpFunctions> puFunctinos = new List<PowerUpFunctionsScript.PowerUpFunctions>();
     public List<System.Reflection.MethodInfo> functions = new List<System.Reflection.MethodInfo>();
@@ -51,7 +52,6 @@ public class PowerUp : ScriptableObject
         }
 
         AddProperties(this);
-
 
     }
 
@@ -129,9 +129,20 @@ public class PowerUp : ScriptableObject
         }
     }
 
-    public int GetIndexOfProperty(System.Type type)
+    public int GetIndexOfProperty(System.Type type, HashSet<System.Type> uniqueTypes)
     {
+        int typeIndex = GetTypeIndex(type, uniqueTypes);
 
+        if (indexLists[typeIndex].Count != 0)
+        {
+            int propertyIndex = indexLists[typeIndex][0/*number of same parameter types?*/];       //maybe use a stack instead?
+            return propertyIndex;
+        }
+        else
+        {
+            Debug.LogError("Property index not found (too few elements in typeList)", this);
+            return -1;
+        }
     }
 
     public void AddProperties(PowerUp pwrUp)
